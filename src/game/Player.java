@@ -2,24 +2,22 @@ package game;
 
 public class Player {
     //Variable
-    private int PlayerScore;
     final private String PlayerName;
+    final private Account account;
 
     //Constructor: Defining variables
-    public Player(String inputPlayerName) {
+    public Player(String inputPlayerName, int startBalance) {
+        account = new Account(startBalance);
         PlayerName = inputPlayerName;
-        PlayerScore = 0;
     }
+    // Get player account balance.
+    public int getBalance(){ return this.account.getBalance(); }
 
-    // Setting the player score
-    public void setPlayerScore(int Point) {
-        this.PlayerScore = this.PlayerScore + Point;
-    }
+    // Set player account balance.
+    public void setBalance(int newBalance){ this.account.setBalance(newBalance); }
 
-    // Getting the player score, then returning it.
-    public int getPlayerScore() {
-        return this.PlayerScore;
-    }
+    // Attempt to make a transaction, returns true if successful.
+    public boolean makeTransaction (int points){ return this.account.makeTransaction(points); }
 
     // Getting the player name, then returning it.
     public String getPlayerName() {
