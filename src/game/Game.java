@@ -10,7 +10,7 @@ public class Game {
 
         String playerName1;
         String playerName2;
-        Beaker beaker = new Beaker(2);
+        Beaker beaker = new Beaker(2, 6);
 
 
         //Scanning for player names

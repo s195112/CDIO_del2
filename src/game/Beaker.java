@@ -6,15 +6,15 @@ public class Beaker {
     final private Die[] dice;
     private boolean hasRolled = false;
 
-    // Constructor: Takes number of die in beaker as argument
-    public Beaker(int n) {
+    // Constructor: Takes number of die in beaker as argument, and the max face value of the dice.
+    public Beaker(int n, int dieMax) {
 
         // Assign arrays with right length
         this.dice = new Die[n];
 
         // Make new instance of die for each number of dice
         for (int i = 0; i < n; i++) {
-            this.dice[i] = new Die();
+            this.dice[i] = new Die(dieMax);
         }
     }
 

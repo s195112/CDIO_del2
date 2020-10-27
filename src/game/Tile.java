@@ -25,5 +25,5 @@ public class Tile {
     public String getName () { return this.name; }
 
     // Get flavor text
-    public String getFlavorText () { return this.name; }
+    public String getFlavorText () { return this.flavorText; }
 }
