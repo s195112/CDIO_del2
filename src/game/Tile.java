@@ -15,15 +15,12 @@ public class Tile {
         extraTurn = iExtraTurn;
     }
 
-    // Get the point value of the tile
-    public int getPoints () { return this.points; }
-
-    // Set the point value of the tile (not relevant to CDIO2)
+    // Relevant setters
     public void setPoints (int add) { this.points = this.points + add; }
 
-    // Get name of the tile
+    // Relevant getters
     public String getName () { return this.name; }
-
-    // Get flavor text
     public String getFlavorText () { return this.flavorText; }
+    public boolean getExtraTurn () { return this.extraTurn; }
+    public int getPoints () { return this.points; }
 }

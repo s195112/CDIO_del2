@@ -22,9 +22,9 @@ public class Game {
         playerName2 = inputs.next();
 
         //Making array with players
-        Player player1 = new Player(playerName1);
+        Player player1 = new Player(playerName1, 0);
 
-        Player player2 = new Player(playerName2);
+        Player player2 = new Player(playerName2, 0);
 
         Player[] scoreboard = new Player[]{player1, player2};
 
@@ -50,8 +50,7 @@ public class Game {
             //check if faceValue is identical and if it is 1 if so then reset score for current player
             if (beaker.isIdentical() && beaker.getFaceValue(0) == 1) {
                 System.out.println("You have rolled a pair of 1. Your score will be reset");
-                scoreboard[turn].setPlayerScore(-scoreboard[turn].getPlayerScore());
-
+                scoreboard[turn].setBalance(0);
             }
 
             if (beaker.isIdentical() && beaker.getFaceValue(0) == 6) {
@@ -59,15 +58,15 @@ public class Game {
             }
 
 
-            if (scoreboard[turn].getPlayerScore() >= 40 && beaker.isIdentical()) {
+            if (scoreboard[turn].getBalance() >= 40 && beaker.isIdentical()) {
                 System.out.println("Player " + scoreboard[turn].getPlayerName() + " won");
                 break;
             }
 
             //add points to scoreBoard with setScore
-            scoreboard[turn].setPlayerScore(beaker.getSum());
+            scoreboard[turn].makeTransaction(beaker.getSum());
             //print score
-            System.out.println("Your current score is " + scoreboard[turn].getPlayerScore());
+            System.out.println("Your current score is " + scoreboard[turn].getBalance());
             //change turn if faceValue is not identical
             if (beaker.isIdentical() && !extraTurn) {
                 System.out.println("You rolled a pair and get an extra turn");
