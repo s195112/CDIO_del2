@@ -11,7 +11,9 @@ class DieTest {
 
     @org.junit.jupiter.api.Test
     void roll() {
-
+        /**
+         * Tests if the rolled number is within the amount of die faces
+         */
         for (int i = 0; i < tests; i++) {
 
             die.roll();
@@ -19,6 +21,9 @@ class DieTest {
             assertTrue(result>=1 && result<=n);
         }
 
+        /**
+         * saves the result of the die and tests if the collective spread is within the interval of uncertainty
+         */
         int[] spread = new int[n];
 
         for (int i = 0; i < tests; i++) {
