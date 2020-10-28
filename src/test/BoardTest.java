@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class BoardTest {
 
-    Board board = new Board(2, new String[]{"John", "Jane"});
+    Board board = new Board(new String[]{"John", "Jane"});
     Die d = new Die(12);
 
     @Test
