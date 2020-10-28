@@ -1,20 +1,26 @@
 package test;
 
 import org.junit.jupiter.api.Test;
-import game.Player;
-import game.Account;
 import game.Board;
+import game.Die;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class BoardTest {
 
     Board board = new Board(2, new String[]{"John", "Jane"});
-
+    Die d = new Die(12);
 
     @Test
     void movePlayer() {
+        for (int i = 0; i < 1000; i++) {
+            d.roll();
+            int increment = d.getFaceValue();
+            int position = board.getPosition(0);
+            board.movePlayer(0, increment);
+            assertEquals((position+increment) % 12, board.getPosition(0));
 
+        }
     }
 
     @Test
