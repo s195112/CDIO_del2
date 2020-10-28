@@ -9,12 +9,7 @@ public class Board {
 
     // Constructor. Loads XML info into Tile array. Sets Player names.
     public Board (int players) {
-        int tiles = 11; // Replace 11 with number of elements in XML file.
-        this.gameBoard = new Tile[tiles];
-        // Import data from XML to generate tiles for the game with preset values.
-        /*
-        Load XML file data into gameBoard.
-         */
+        this.gameBoard = Utility.tileGenerator("src/game/tileList.xml");
         Scanner input = new Scanner(System.in);
         String newInput;
         boolean blank;
@@ -47,9 +42,8 @@ public class Board {
     public void tileAction(int player){
         int tile = this.scoreBoard[player].getPosition();
         int value = this.gameBoard[tile].getPoints();
-        boolean extraTurn = this.gameBoard[tile].getExtraTurn();
 
-        System.out.println("You've landed on tile " + tile + ".");
+        System.out.println("You've landed on tile " + (tile + 1) + ".");
         System.out.println(this.gameBoard[tile].getName());
         System.out.println(this.gameBoard[tile].getFlavorText());
 
@@ -58,7 +52,7 @@ public class Board {
         else if (value < 0){ System.out.println("You lose " + (-value) + " gold coins."); }
         else { System.out.println("You don't get any gold coins, but you don't lose any either."); }
 
-        // Attempt to make the transaction.
+        // Attempt to make the transaction. If transaction fails, set balance to 0, and announce player broke.
         boolean transaction = this.scoreBoard[player].makeTransaction(value);
         if (!transaction){
             System.out.println("You don't have enough gold coins. You are broke.");
@@ -69,9 +63,18 @@ public class Board {
         System.out.println("You now have " + this.scoreBoard[player].getBalance() + " gold coins in total.");
 
         // Set extra turn
-        if (extraTurn) {
+        if (this.gameBoard[tile].getExtraTurn()) {
             System.out.println("You get an extra turn.");
             this.scoreBoard[player].setExtraTurn(true);
         }
     }
+    // Relevant getters for players
+    public int getPosition(int player){ return this.scoreBoard[player].getPosition(); }
+    public int getBalance(int player){ return this.scoreBoard[player].getBalance(); }
+    public String getName(int player){ return this.scoreBoard[player].getName(); }
+
+    // Relevant setters for players
+    public void setPosition(int player,int newPosition){ this.scoreBoard[player].setPosition(newPosition); }
+    public void setBalance(int player,int newBalance){ this.scoreBoard[player].setPosition(newBalance); }
+    public void setExtraTurn(int player, boolean extraTurn){ this.scoreBoard[player].setExtraTurn(extraTurn); }
 }

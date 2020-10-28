@@ -2,21 +2,21 @@ package game;
 
 public class Player {
     //Variable
-    final private String PlayerName;
+    final private String name;
     final private Account account;
-    private int position;
-    private boolean extraTurn;
+    private int position = 0;
+    private boolean extraTurn = false;
 
     //Constructor: Defining variables
-    public Player(String inputPlayerName, int startBalance) {
+    public Player(String inputName, int startBalance) {
         account = new Account(startBalance);
-        PlayerName = inputPlayerName;
+        name = inputName;
     }
 
     // Relevant setters
     public int getBalance() { return this.account.getBalance(); }
-    public String getPlayerName() {
-        return this.PlayerName;
+    public String getName() {
+        return this.name;
     }
     public int getPosition() { return this.position; }
     public boolean getExtraTurn() { return this.extraTurn; }
@@ -28,5 +28,4 @@ public class Player {
 
     // Attempt to make a transaction, returns true if successful.
     public boolean makeTransaction(int points) { return this.account.makeTransaction(points); }
-
 }
