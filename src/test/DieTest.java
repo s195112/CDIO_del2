@@ -6,7 +6,8 @@ class DieTest {
 
     int n = 6;
     Die die = new Die(n);
-    int tests = 1000;
+    int tests = 10000;
+    int diceSpread = 400;
 
     @org.junit.jupiter.api.Test
     void roll() {
@@ -27,5 +28,8 @@ class DieTest {
 
         }
 
+        for (int i = 0; i < spread.length-1; i++) {
+            assertTrue(spread[i]>tests/n-diceSpread && spread[i]<tests/n+diceSpread);
+        }
     }
 }
