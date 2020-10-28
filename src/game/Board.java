@@ -30,6 +30,7 @@ public class Board {
                     blank = false;
                 }
             }
+        input.close();
         }
     }
     // Move the player on the board.
