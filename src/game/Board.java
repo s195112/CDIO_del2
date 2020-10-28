@@ -72,6 +72,7 @@ public class Board {
     public int getPosition(int player){ return this.scoreBoard[player].getPosition(); }
     public int getBalance(int player){ return this.scoreBoard[player].getBalance(); }
     public String getName(int player){ return this.scoreBoard[player].getName(); }
+    public boolean getExtraTurn(int player){ return this.scoreBoard[player].getExtraTurn(); }
 
     // Relevant setters for players
     public void setPosition(int player,int newPosition){ this.scoreBoard[player].setPosition(newPosition); }
