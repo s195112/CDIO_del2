@@ -1,38 +1,27 @@
 package game;
 
-import java.util.Scanner;
-
 public class Board {
+
     // Declarations
     final private Tile[] gameBoard;
     final private Player[] scoreBoard;
 
     // Constructor. Loads XML info into Tile array. Sets Player names.
-    public Board (int players) {
+    public Board (int players, String[] playerNames) {
         this.gameBoard = Utility.tileGenerator("src/game/tileList.xml");
-        Scanner input = new Scanner(System.in);
-        String newInput;
-        boolean blank;
         this.scoreBoard = new Player[players];
+
+        if (playerNames.length < players) {
+            System.out.println("Number of player names doesn't match number of players!");
+            return;
+        }
 
         // Make an array with the requested number of players.
         for (int i = 0; i < players; i++) {
-            System.out.println("Please enter name of player " + (i + 1) + ":");
-            blank = true;
-            // While loop to ensure that all players get names, also prevents whitespaces in console.
-            while (blank) {
-                newInput = input.nextLine();
-                if (newInput.equals("")) {
-                    System.out.println("Invalid input.");
-                    System.out.println("Please enter name of player " + (i + 1) + ":");
-                } else {
-                    this.scoreBoard[i] = new Player(newInput, 1000);
-                    blank = false;
-                }
-            }
-        input.close();
+            this.scoreBoard[i] = new Player(playerNames[i], 1000);
         }
     }
+
     // Move the player on the board.
     public void movePlayer(int player,int increment){
         int currentPosition = this.scoreBoard[player].getPosition();
@@ -77,6 +66,6 @@ public class Board {
 
     // Relevant setters for players
     public void setPosition(int player,int newPosition){ this.scoreBoard[player].setPosition(newPosition); }
-    public void setBalance(int player,int newBalance){ this.scoreBoard[player].setPosition(newBalance); }
+    public void setBalance(int player,int newBalance){ this.scoreBoard[player].setBalance(newBalance); }
     public void setExtraTurn(int player, boolean extraTurn){ this.scoreBoard[player].setExtraTurn(extraTurn); }
 }

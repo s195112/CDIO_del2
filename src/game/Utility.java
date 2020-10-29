@@ -11,7 +11,7 @@ import java.io.File;
 
 public class Utility {
     public static void awaitEnter(){
-        System.out.println("Press enter to continue the game...");
+        System.out.println("Press enter to roll the dice...");
         try {
             System.in.read();
         } catch (IOException e) {

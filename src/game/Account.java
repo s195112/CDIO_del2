@@ -5,9 +5,7 @@ public class Account {
     private int balance;
 
     // Constructor, sets starting balance
-    public Account (int startBalance) {
-        balance = startBalance;
-    }
+    public Account (int startBalance) { balance = startBalance; }
 
     // Get balance
     public int getBalance () { return this.balance; }
