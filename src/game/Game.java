@@ -77,7 +77,7 @@ public class Game {
                     } else {
 
                         // If they did get an extra turn, remove it for next round
-                        board.setExtraturn(playerTurn, false)
+                        board.setExtraTurn(playerTurn, false);
                     }
                 }
             }
