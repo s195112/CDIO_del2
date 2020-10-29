@@ -9,23 +9,27 @@ public class Game {
     final static int PLAYERS = 2;
     final static int POINTS_GOAL = 3000;
 
+    static Beaker beaker;
+    static Board board;
+
     public static void main(String[] args) {
 
-
-        String newInput;
         Scanner scan = new Scanner(System.in);
 
-        String[] playerNames = new String[PLAYERS];
+        String newInput;
 
         // Make an array with the requested number of players.
+        String[] playerNames = new String[PLAYERS];
         for (int i = 0; i < PLAYERS; i++) {
-            System.out.println("Please enter name of player " + (i + 1) + ":");
+
             // While loop to ensure that all players get names, also prevents whitespaces in console.
             while (true) {
+
+                System.out.printf("Please enter name of player %d: ", i + 1);
                 newInput = scan.nextLine();
+
                 if (newInput.equals("")) {
                     System.out.println("Invalid input.");
-                    System.out.println("Please enter name of player " + (i + 1) + ":");
                 } else {
                     playerNames[i] = newInput;
                     break;
@@ -33,14 +37,15 @@ public class Game {
             }
         }
 
+        // Create instances of objects
+        beaker = new Beaker(DICE, DIE_MAXVALUE);
+        board = new Board(PLAYERS, playerNames);
+
         int playerTurn;
-        boolean end = true;
+        boolean end = false;
 
+        // Loop for restarting game
         do {
-
-            // Create instances of objects
-            Beaker beaker = new Beaker(DICE, DIE_MAXVALUE);
-            Board board = new Board(PLAYERS, playerNames);
             playerTurn = 0;
 
             // Play game until someone wins
@@ -73,25 +78,52 @@ public class Game {
 
                         // If they didn't get an extra turn, move on to the next one
                         playerTurn = (playerTurn + 1) % PLAYERS;
-                        
+
                     } else {
 
                         // If they did get an extra turn, remove it for next round
-                        board.setExtraturn(playerTurn, false)
+                        board.setExtraTurn(playerTurn, false);
                     }
                 }
             }
+            System.out.println("\nGG.");
 
             // Check if user wants to play again
-            System.out.print("\nGG. Play again? (Y/N) ");
-            newInput = scan.nextLine();
+            char c;
+            while (true) {
+                System.out.print("Play again? (Y/N) ");
+                newInput = scan.nextLine();
 
-            char c = newInput.charAt(0);
-            switch (c) {
-                case 'Y', 'y' -> end = false;
-                case 'N', 'n' -> end = true;
-                default -> System.out.println("Input not recognized: Ending game.");
+                try {
+                    c = newInput.charAt(0);
+                    break;
+
+                } catch (Exception e) {
+                    if (e instanceof StringIndexOutOfBoundsException) {
+                        continue;
+                    }
+                    throw e;
+                }
             }
+
+            // Act based on input
+            switch (c) {
+                case 'Y':
+                case 'y':
+                    for (int i = 0; i < PLAYERS; i++) {
+                        board.setBalance(i, 1000);
+                        board.setExtraTurn(i, false);
+                        board.setPosition(i, 0);
+                    }
+                    break;
+
+                default:
+                    System.out.println("Input not recognized: Ending game.");
+                case 'N':
+                case 'n':
+                    end = true;
+            }
+
         } while (!end);
         scan.close();
     }
