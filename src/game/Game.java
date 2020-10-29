@@ -1,88 +1,98 @@
 package game;
 
-import java.io.IOException;
 import java.util.Scanner;
 
 public class Game {
+
+    final static int DICE = 2;
+    final static int DIE_MAXVALUE = 6;
+    final static int PLAYERS = 2;
+    final static int POINTS_GOAL = 3000;
+
     public static void main(String[] args) {
-        boolean sixTurn = false, extraTurn = false;
-        int a, b, turn = 0;
-
-        String playerName1;
-        String playerName2;
-        Beaker beaker = new Beaker(2);
 
 
-        //Scanning for player names
-        System.out.println("Input player one");
-        Scanner inputs = new Scanner(System.in);
-        playerName1 = inputs.next();
+        String newInput;
+        Scanner scan = new Scanner(System.in);
 
-        System.out.println("Input player two");
-        playerName2 = inputs.next();
+        String[] playerNames = new String[PLAYERS];
 
-        //Making array with players
-        Player player1 = new Player(playerName1);
-
-        Player player2 = new Player(playerName2);
-
-        Player[] scoreboard = new Player[]{player1, player2};
-
-        //As long as each players point doesn't reach 40 game continues
-        while (true) {
-
-            System.out.println("Player " + scoreboard[turn].getPlayerName() + "'s turn");
-            //new turn begins and player rolls
-            beaker.roll();
-
-            //show dice faceValue
-            a = beaker.getFaceValue(0);
-            b = beaker.getFaceValue(1);
-            System.out.println(a + " " + b);
-
-
-            if (sixTurn && beaker.isIdentical() && beaker.getFaceValue(0) == 6) {
-                System.out.println("Player " + scoreboard[turn].getPlayerName() + " won");
-                break;
-            } else {
-                sixTurn = false;
-            }
-            //check if faceValue is identical and if it is 1 if so then reset score for current player
-            if (beaker.isIdentical() && beaker.getFaceValue(0) == 1) {
-                System.out.println("You have rolled a pair of 1. Your score will be reset");
-                scoreboard[turn].setPlayerScore(-scoreboard[turn].getPlayerScore());
-
-            }
-
-            if (beaker.isIdentical() && beaker.getFaceValue(0) == 6) {
-                sixTurn = true;
-            }
-
-
-            if (scoreboard[turn].getPlayerScore() >= 40 && beaker.isIdentical()) {
-                System.out.println("Player " + scoreboard[turn].getPlayerName() + " won");
-                break;
-            }
-
-            //add points to scoreBoard with setScore
-            scoreboard[turn].setPlayerScore(beaker.getSum());
-            //print score
-            System.out.println("Your current score is " + scoreboard[turn].getPlayerScore());
-            //change turn if faceValue is not identical
-            if (beaker.isIdentical() && !extraTurn) {
-                System.out.println("You rolled a pair and get an extra turn");
-                extraTurn = true;
-            } else {
-                extraTurn = false;
-                turn = (turn + 1) % scoreboard.length;
-            }
-
-            System.out.println("Press enter to continue the game...");
-            try {
-                System.in.read();
-            } catch (IOException e) {
-                e.printStackTrace();
+        // Make an array with the requested number of players.
+        for (int i = 0; i < PLAYERS; i++) {
+            System.out.println("Please enter name of player " + (i + 1) + ":");
+            // While loop to ensure that all players get names, also prevents whitespaces in console.
+            while (true) {
+                newInput = scan.nextLine();
+                if (newInput.equals("")) {
+                    System.out.println("Invalid input.");
+                    System.out.println("Please enter name of player " + (i + 1) + ":");
+                } else {
+                    playerNames[i] = newInput;
+                    break;
+                }
             }
         }
+
+        int playerTurn;
+        boolean end = true;
+
+        do {
+
+            // Create instances of objects
+            Beaker beaker = new Beaker(DICE, DIE_MAXVALUE);
+            Board board = new Board(PLAYERS, playerNames);
+            playerTurn = 0;
+
+            // Play game until someone wins
+            while (true) {
+
+                // Announce player turn
+                System.out.printf("\nIt is %s's turn.\n", board.getName(playerTurn));
+
+                // Prompt player for input and wait
+                Utility.awaitEnter();
+
+                // Roll the dice and move that number of tiles on the board
+                beaker.roll();
+                int diceResult = beaker.getSum();
+                System.out.printf("You rolled %d\n", diceResult);
+                board.movePlayer(playerTurn, diceResult);
+
+                // Execute tileAction for the given tile
+                board.tileAction(playerTurn);
+
+                // Has the player won? If so, announce winner and break the loop
+                if (board.getBalance(playerTurn) >= POINTS_GOAL) {
+                    System.out.printf("You have reached the goal of %d points, and win! Congratulations, %s!\n", POINTS_GOAL, board.getName(playerTurn));
+                    break;
+
+                } else { // Go on to next turn
+
+                    // Check if current player got an extra turn
+                    if (!board.getExtraTurn(playerTurn)) {
+
+                        // If they didn't get an extra turn, move on to the next one
+                        playerTurn = (playerTurn + 1) % PLAYERS;
+                        
+                    } else {
+
+                        // If they did get an extra turn, remove it for next round
+                        board.setExtraturn(playerTurn, false)
+                    }
+                }
+            }
+
+            // Check if user wants to play again
+            System.out.print("\nGG. Play again? (Y/N) ");
+            newInput = scan.nextLine();
+
+            char c = newInput.charAt(0);
+            switch (c) {
+                case 'Y', 'y' -> end = false;
+                case 'N', 'n' -> end = true;
+                default -> System.out.println("Input not recognized: Ending game.");
+            }
+        } while (!end);
+        scan.close();
     }
 }

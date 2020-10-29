@@ -8,7 +8,7 @@ public class test1 {
 
     public static void main(String[] args) {
 
-        Beaker beaker = new game.Beaker(2);
+        Beaker beaker = new game.Beaker(2,6);
 
         /*
          * Simulate 1008 dice rolls.
