@@ -78,11 +78,6 @@ public class Game {
 
                         // If they didn't get an extra turn, move on to the next one
                         playerTurn = (playerTurn + 1) % PLAYERS;
-
-                    } else {
-
-                        // If they did get an extra turn, remove it for next round
-                        board.setExtraTurn(playerTurn, false);
                     }
                 }
             }

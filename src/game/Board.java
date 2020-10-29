@@ -33,13 +33,13 @@ public class Board {
         int tile = this.scoreBoard[player].getPosition();
         int value = this.gameBoard[tile].getPoints();
 
-        System.out.println("You've landed on tile " + (tile + 1) + ".");
+        System.out.printf("You've landed on tile %d: ", tile + 1);
         System.out.println(this.gameBoard[tile].getName());
         System.out.println(this.gameBoard[tile].getFlavorText());
 
         // Announce the coming change in player balance.
-        if (value > 0){ System.out.println("You get " + value + " gold coins."); }
-        else if (value < 0){ System.out.println("You lose " + (-value) + " gold coins."); }
+        if (value > 0){ System.out.printf("You get %d gold coins.\n", value); }
+        else if (value < 0){ System.out.printf("You lose %d gold coins.\n", -value); }
         else { System.out.println("You don't get any gold coins, but you don't lose any either."); }
 
         // Attempt to make the transaction. If transaction fails, set balance to 0, and announce player broke.
@@ -50,7 +50,12 @@ public class Board {
         }
 
         // Announce new balance
-        System.out.println("You now have " + this.scoreBoard[player].getBalance() + " gold coins in total.");
+        System.out.printf("You now have %d gold coins in total.\n", this.scoreBoard[player].getBalance());
+
+        // If current turn is extra turn, revert flag
+        if (this.scoreBoard[player].getExtraTurn()) {
+            this.scoreBoard[player].setExtraTurn(false);
+        }
 
         // Set extra turn
         if (this.gameBoard[tile].getExtraTurn()) {
@@ -58,6 +63,7 @@ public class Board {
             this.scoreBoard[player].setExtraTurn(true);
         }
     }
+
     // Relevant getters for players
     public int getPosition(int player){ return this.scoreBoard[player].getPosition(); }
     public int getBalance(int player){ return this.scoreBoard[player].getBalance(); }
