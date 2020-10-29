@@ -8,91 +8,68 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class BoardTest {
 
-    Board board = new Board(new String[]{"John", "Jane"});
-    Die d = new Die(12);
+    final int players = 2;
+    final int tests = 1000;
+    final Board board = new Board(players, new String[]{"John", "Jane"});
+    final Die d = new Die(12);
 
     @Test
     void movePlayer() {
-        for (int i = 0; i < 1000; i++) {
-            d.roll();
-            int increment = d.getFaceValue();
-            int position = board.getPosition(0);
-            board.movePlayer(0, increment);
-            assertEquals((position+increment) % 12, board.getPosition(0));
+        int increment;
+        int position;
 
+        for (int i = 0; i < tests; i++) {
+
+            // Test all players alternately
+            for (int j = 0; j < players; j++) {
+                d.roll();
+                increment = d.getFaceValue();
+                position = board.getPosition(j);
+                board.movePlayer(j, increment);
+
+                assertEquals((position + increment) % 12, board.getPosition(j));
+            }
         }
     }
 
     @Test
     void tileAction() {
-        boolean xturn = false;
-        for (int i = 0; i < 1000; i++) {
+        boolean xturn;
+        int money;
 
-            int money = board.getBalance(0);
-            board.movePlayer(0, 1);
-            if(board.getPosition(0)==10){
-                xturn = true;
+        for (int i = 0; i < tests; i++) {
+
+            // Test all players alternately
+            for (int j = 0; j < players; j++) {
+                d.roll();
+                board.movePlayer(j, d.getFaceValue());
+
+                System.out.printf("Position for player %d: %d", j, board.getPosition(j));
+                xturn = board.getPosition(j) == 9;
+                money = board.getBalance(j) + getTileAction(board.getPosition(j));
+
+                board.tileAction(j);
+                assertEquals(money, board.getBalance(j));
+                assertEquals(xturn, board.getExtraTurn(j));
             }
-            else {
-                xturn = false;
-            }
-            assertEquals(xturn, board.getExtraTurn(0));
-            money += getTileAction(board.getPosition(0));
-            board.tileAction(0);
-            assertEquals(money, board.getBalance(0));
         }
     }
+
     int getTileAction(int number) {
-        switch(number){
-            case 1:
-                return -60;
-                break;
-
-            case 2:
-                return 250;
-                break;
-
-            case 3:
-                return -100;
-                break;
-
-            case 4:
-                return 100;
-                break;
-
-            case 5:
-                return -20;
-                break;
-
-            case 6:
-                return 180;
-                break;
-
-            case 7:
-                return 0;
-                break;
-
-            case 8:
-                return -70;
-                break;
-
-            case 9:
-                return 60;
-                break;
-
-            case 10:
-                return -80;
-                break;
-
-            case 11:
-                return -50;
-                break;
-
-            case 12:
-                return 650;
-                break;
-
-
-        }
+        return switch (number) {
+            case 0 -> -60;
+            case 1 -> 250;
+            case 2 -> -100;
+            case 3 -> 100;
+            case 4 -> -20;
+            case 5 -> 180;
+            case 6 -> 0;
+            case 7 -> -70;
+            case 8 -> 60;
+            case 9 -> -80;
+            case 10 -> -50;
+            case 11 -> 650;
+            default -> throw new AssertionError();
+        };
     }
 }
