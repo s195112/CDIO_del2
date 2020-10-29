@@ -52,10 +52,9 @@ public class Board {
         // Announce new balance
         System.out.printf("You now have %d gold coins in total.\n", this.scoreBoard[player].getBalance());
 
-        // If current turn is extra turn, revert flag
-        if (this.scoreBoard[player].getExtraTurn()) {
-            this.scoreBoard[player].setExtraTurn(false);
-        }
+        // Set extra turn false - if
+        this.scoreBoard[player].setExtraTurn(false);
+
 
         // Set extra turn
         if (this.gameBoard[tile].getExtraTurn()) {
