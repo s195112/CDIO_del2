@@ -66,6 +66,6 @@ public class Board {
 
     // Relevant setters for players
     public void setPosition(int player,int newPosition){ this.scoreBoard[player].setPosition(newPosition); }
-    public void setBalance(int player,int newBalance){ this.scoreBoard[player].setPosition(newBalance); }
+    public void setBalance(int player,int newBalance){ this.scoreBoard[player].setBalance(newBalance); }
     public void setExtraTurn(int player, boolean extraTurn){ this.scoreBoard[player].setExtraTurn(extraTurn); }
 }
