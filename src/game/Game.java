@@ -38,11 +38,12 @@ public class Game {
 
         do {
 
-        // Create instances of objects
-        Beaker beaker = new Beaker(DICE, DIE_MAXVALUE);
-        Board board = new Board(PLAYERS, playerNames);
-        playerTurn = 0;
+            // Create instances of objects
+            Beaker beaker = new Beaker(DICE, DIE_MAXVALUE);
+            Board board = new Board(PLAYERS, playerNames);
+            playerTurn = 0;
 
+            // Play game until someone wins
             while (true) {
 
                 // Announce player turn
@@ -68,25 +69,29 @@ public class Game {
                 } else { // Go on to next turn
 
                     // Check if current player got an extra turn
-                    if (!board.getExtraTurn(playerTurn)) { // BUG: Player never gets extra turn!
+                    if (!board.getExtraTurn(playerTurn)) {
 
                         // If they didn't get an extra turn, move on to the next one
-                        playerTurn = playerTurn == PLAYERS - 1 ? 0 : playerTurn + 1;
+                        playerTurn = (playerTurn + 1) % PLAYERS;
+                        
+                    } else {
+
+                        // If they did get an extra turn, remove it for next round
+                        board.setExtraturn(playerTurn, false)
                     }
                 }
             }
 
-            System.out.println("\nGG. Play again? (Y/N)");
-            String answer = scan.nextLine();
+            // Check if user wants to play again
+            System.out.print("\nGG. Play again? (Y/N) ");
+            newInput = scan.nextLine();
 
-            char c = answer.charAt(0);
-
+            char c = newInput.charAt(0);
             switch (c) {
                 case 'Y', 'y' -> end = false;
                 case 'N', 'n' -> end = true;
                 default -> System.out.println("Input not recognized: Ending game.");
             }
-
         } while (!end);
         scan.close();
     }
