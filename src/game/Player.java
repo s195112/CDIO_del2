@@ -4,7 +4,7 @@ public class Player {
     //Variable
     final private String name;
     final private Account account;
-    private int position = 0;
+    private int position = -1;
     private boolean extraTurn = false;
 
     //Constructor: Defining variables
