@@ -47,7 +47,7 @@ public class Game {
         // Loop for restarting game
         do {
             playerTurn = 0;
-
+            for (int i = 0; i < PLAYERS; i++) { board.movePlayer(i,0); }
             // Play game until someone wins
             while (true) {
 
@@ -108,7 +108,7 @@ public class Game {
                     for (int i = 0; i < PLAYERS; i++) {
                         board.setBalance(i, 1000);
                         board.setExtraTurn(i, false);
-                        board.setPosition(i, 0);
+                        board.setPosition(i, -1);
                     }
                     break;
 
