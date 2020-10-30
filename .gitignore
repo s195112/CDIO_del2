@@ -6,6 +6,5 @@
 /dataSources.local.xml
 # Editor-based HTTP Client requests
 /httpRequests/
-# Folder with .class-files and .class-files
-/out/
-.class
+# .class-files
+*.class
